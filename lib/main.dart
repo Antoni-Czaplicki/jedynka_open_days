@@ -42,6 +42,25 @@ class OpenDaysApp extends StatelessWidget {
   }
 }
 
+class InfoPage extends StatelessWidget {
+  const InfoPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: const Text('Informacje o aplikacji')),
+        body: Center(
+            child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset('assets/app_icon.png', fit: BoxFit.cover, height: 256),
+            const Text('by Antoni Czaplicki'),
+            const Text('Wersja aplikacji: TBA')
+          ],
+        )));
+  }
+}
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
 
@@ -72,6 +91,19 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.info_outline,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const InfoPage()),
+              );
+            },
+          )
+        ],
       ),
       body: FutureBuilder<List<Checkpoint>>(
         future: fetchData(http.Client()),

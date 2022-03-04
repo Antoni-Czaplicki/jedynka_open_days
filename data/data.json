@@ -6,7 +6,7 @@
       "subtitle": "Food truck subtitle",
       "location": "Boisko szkolne",
       "description": "Jedzonko",
-      "image": "https://via.placeholder.com/150"
+      "image": "https://picsum.photos/seed/1/200/300"
     },
     {
       "id": 2,
@@ -14,7 +14,31 @@
       "subtitle": "Sala Chemiczna - podtytuł",
       "location": "201",
       "description": "Nie papu",
-      "image": "https://via.placeholder.com/150"
+      "image": "https://picsum.photos/seed/2/200/300"
+    },
+    {
+      "id": 3,
+      "title": "Sala jakaś",
+      "subtitle": "Sala jakaś - podtytuł",
+      "location": "111",
+      "description": "Nie chem",
+      "image": "https://picsum.photos/seed/3/200/300"
+    },
+    {
+      "id": 4,
+      "title": "Sala inf",
+      "subtitle": "Sala podtytuł",
+      "location": "222",
+      "description": "papu",
+      "image": "https://picsum.photos/seed/4/200/300"
+    },
+    {
+      "id": 5,
+      "title": "Sala fiz",
+      "subtitle": "Sala sub",
+      "location": "211",
+      "description": "wrrr",
+      "image": "https://picsum.photos/seed/5/200/300"
     }
   ]
 }
