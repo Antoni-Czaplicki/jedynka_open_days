@@ -1,6 +1,23 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:http/http.dart' as http;
+import 'checkpoint.dart';
+
+Future<List<Checkpoint>> fetchData(http.Client client) async {
+  final response = await client.get(Uri.parse(
+      'https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/data.json'));
+  return compute(parseCheckpoints, response.body);
+}
+
+List<Checkpoint> parseCheckpoints(String responseBody) {
+  final parsed =
+      jsonDecode(responseBody)['checkpoints'].cast<Map<String, dynamic>>();
+
+  return parsed.map<Checkpoint>((json) => Checkpoint.fromJson(json)).toList();
+}
 
 void main() {
   runApp(const OpenDaysApp());
@@ -56,19 +73,21 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Zeskanowane kody:',
-            ),
-            Text(
-              completedCheckpoints,
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+      body: FutureBuilder<List<Checkpoint>>(
+        future: fetchData(http.Client()),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text('An error has occurred!'),
+            );
+          } else if (snapshot.hasData) {
+            return CheckpointsList(photos: snapshot.data!);
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -77,6 +96,36 @@ class _HomePageState extends State<HomePage> {
         tooltip: 'Skanuj kod',
         child: const Icon(Icons.qr_code),
       ),
+    );
+  }
+}
+
+class CheckpointsList extends StatelessWidget {
+  const CheckpointsList({Key? key, required this.photos}) : super(key: key);
+
+  final List<Checkpoint> photos;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: photos.length,
+      itemBuilder: (context, index) {
+        return Card(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Image.network(photos[index].image,
+                  fit: BoxFit.cover, height: 200),
+              ListTile(
+                title: Text(photos[index].title),
+                subtitle: Text(photos[index].subtitle),
+                leading: const Icon(Icons.check_box_outline_blank),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
