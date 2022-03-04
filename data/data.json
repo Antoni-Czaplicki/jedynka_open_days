@@ -1,0 +1,18 @@
+{
+  "checkpoints": [
+    {
+      "id": 1,
+      "title": "Food truck",
+      "location": "Boisko szkolne",
+      "description": "Jedzonko",
+      "image": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 2,
+      "title": "Sala chemiczna",
+      "location": "201",
+      "description": "Nie papu",
+      "image": "https://via.placeholder.com/150"
+    }
+  ]
+}

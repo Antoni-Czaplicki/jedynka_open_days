@@ -14,8 +14,12 @@ class OpenDaysApp extends StatelessWidget {
     return MaterialApp(
       title: 'Dni Otwarte ILO',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        brightness: Brightness.light,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.system,
       home: const HomePage(title: 'Dzień otwarty ILO'),
     );
   }
