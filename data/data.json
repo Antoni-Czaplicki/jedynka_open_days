@@ -3,6 +3,7 @@
     {
       "id": 1,
       "title": "Food truck",
+      "subtitle": "Food truck subtitle",
       "location": "Boisko szkolne",
       "description": "Jedzonko",
       "image": "https://via.placeholder.com/150"
@@ -10,6 +11,7 @@
     {
       "id": 2,
       "title": "Sala chemiczna",
+      "subtitle": "Sala Chemiczna - podtytuł",
       "location": "201",
       "description": "Nie papu",
       "image": "https://via.placeholder.com/150"
