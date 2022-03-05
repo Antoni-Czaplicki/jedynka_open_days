@@ -57,13 +57,7 @@ class InfoPage extends StatelessWidget {
           children: [
             Image.asset('assets/app_icon.png', fit: BoxFit.cover, height: 256),
             const Text('by Antoni Czaplicki'),
-            const Text('Wersja aplikacji: TBA'),
-            ElevatedButton(
-                onPressed: () async {
-                  final prefs = await SharedPreferences.getInstance();
-                  await prefs.remove('completedCheckpoints');
-                },
-                child: const Text('Reset progress'))
+            const Text('Wersja aplikacji: TBA')
           ],
         )));
   }
@@ -80,23 +74,39 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  var completedCheckpoints = [];
+  List<String> completedCheckpoints = [];
+
+  void _loadCompletedCheckpoints() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      completedCheckpoints =
+          (prefs.getStringList('completedCheckpoints') ?? []);
+    });
+  }
+
+  Future<void> _resetCompletedCheckpoints() async {
+    SharedPreferences prefs = await _prefs;
+    setState(() {
+      completedCheckpoints = [];
+      prefs.setStringList('completedCheckpoints', completedCheckpoints);
+    });
+  }
 
   Future<void> _unlockCheckpoint([String? id]) async {
-    final SharedPreferences prefs = await _prefs;
-    final List<String> completedCheckpoints =
-        prefs.getStringList('completedCheckpoints') ?? [];
-
+    SharedPreferences prefs = await _prefs;
+    debugPrint(completedCheckpoints.toString());
     setState(() {
-      if (id != null) {
+      if (id != null && !completedCheckpoints.contains(id)) {
         completedCheckpoints.add(id);
       }
-      prefs
-          .setStringList('completedCheckpoints', completedCheckpoints)
-          .then((bool success) {
-        return completedCheckpoints;
-      });
+      prefs.setStringList('completedCheckpoints', completedCheckpoints);
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCompletedCheckpoints();
   }
 
   void _scanQRAndUnlockCheckpoint(BuildContext context) async {
@@ -104,9 +114,6 @@ class _HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(builder: (context) => const QRScanner()),
     );
-    ScaffoldMessenger.of(context)
-      ..removeCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('$result')));
     _unlockCheckpoint(result);
   }
 
@@ -126,6 +133,25 @@ class _HomePageState extends State<HomePage> {
                 MaterialPageRoute(builder: (context) => const InfoPage()),
               );
             },
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.restore,
+            ),
+            onPressed: () async {
+              await _resetCompletedCheckpoints();
+            },
+          ),
+          IconButton(
+            icon: const Icon(
+              Icons.developer_mode,
+            ),
+            onPressed: () {
+              ScaffoldMessenger.of(context)
+                ..removeCurrentSnackBar()
+                ..showSnackBar(
+                    SnackBar(content: Text('$completedCheckpoints')));
+            },
           )
         ],
       ),
@@ -137,7 +163,10 @@ class _HomePageState extends State<HomePage> {
               child: Text('An error has occurred!'),
             );
           } else if (snapshot.hasData) {
-            return CheckpointsList(photos: snapshot.data!);
+            return CheckpointsList(
+              data: snapshot.data!,
+              completedCheckpoints: completedCheckpoints,
+            );
           } else {
             return const Center(
               child: CircularProgressIndicator(),
@@ -149,7 +178,7 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {
           _scanQRAndUnlockCheckpoint(context);
         },
-        tooltip: 'Skanuj kod',
+        tooltip: 'Zeskanuj kod QR',
         child: const Icon(Icons.qr_code),
       ),
     );
@@ -157,32 +186,49 @@ class _HomePageState extends State<HomePage> {
 }
 
 class CheckpointsList extends StatelessWidget {
-  const CheckpointsList({Key? key, required this.photos}) : super(key: key);
+  const CheckpointsList(
+      {Key? key, required this.data, required this.completedCheckpoints})
+      : super(key: key);
 
-  final List<Checkpoint> photos;
+  final List<Checkpoint> data;
+  final List<String> completedCheckpoints;
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: photos.length,
+      itemCount: data.length,
       itemBuilder: (context, index) {
         return Card(
+            child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CheckpointDetails(
+                      checkpoint: data[index],
+                      isCompleted: completedCheckpoints
+                          .contains(data[index].id.toString()))),
+            );
+          },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Image(
-                  image: CachedNetworkImageProvider(photos[index].image),
+                  image: CachedNetworkImageProvider(data[index].image),
                   fit: BoxFit.cover,
                   height: 200),
               ListTile(
-                title: Text(photos[index].title),
-                subtitle: Text(photos[index].subtitle),
-                leading: const Icon(Icons.check_box_outline_blank),
+                title: Text(data[index].title),
+                subtitle: Text(data[index].subtitle),
+                leading:
+                    completedCheckpoints.contains(data[index].id.toString())
+                        ? const Icon(Icons.check_box)
+                        : const Icon(Icons.check_box_outline_blank),
               ),
             ],
           ),
-        );
+        ));
       },
     );
   }
@@ -215,5 +261,36 @@ class QRScanner extends StatelessWidget {
             child: Text('Not implemented yet'),
           ));
     }
+  }
+}
+
+class CheckpointDetails extends StatelessWidget {
+  const CheckpointDetails(
+      {Key? key, required this.checkpoint, required this.isCompleted})
+      : super(key: key);
+  final Checkpoint checkpoint;
+  final bool isCompleted;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: Text(checkpoint.title)),
+        body: ListView(children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image(
+                  image: CachedNetworkImageProvider(checkpoint.image),
+                  fit: BoxFit.cover,
+                  height: 300),
+              Text(checkpoint.description),
+              Text(checkpoint.location),
+              isCompleted
+                  ? const Icon(Icons.check_box)
+                  : const Icon(Icons.check_box_outline_blank),
+            ],
+          )
+        ]));
   }
 }
