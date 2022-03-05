@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'checkpoint.dart';
 
 Future<List<Checkpoint>> fetchData(http.Client client) async {
@@ -55,7 +57,13 @@ class InfoPage extends StatelessWidget {
           children: [
             Image.asset('assets/app_icon.png', fit: BoxFit.cover, height: 256),
             const Text('by Antoni Czaplicki'),
-            const Text('Wersja aplikacji: TBA')
+            const Text('Wersja aplikacji: TBA'),
+            ElevatedButton(
+                onPressed: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.remove('completedCheckpoints');
+                },
+                child: const Text('Reset progress'))
           ],
         )));
   }
@@ -71,7 +79,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var completedCheckpoints = '';
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  var completedCheckpoints = [];
+
+  Future<void> _unlockCheckpoint([String? id]) async {
+    final SharedPreferences prefs = await _prefs;
+    final List<String> completedCheckpoints =
+        prefs.getStringList('completedCheckpoints') ?? [];
+
+    setState(() {
+      if (id != null) {
+        completedCheckpoints.add(id);
+      }
+      prefs
+          .setStringList('completedCheckpoints', completedCheckpoints)
+          .then((bool success) {
+        return completedCheckpoints;
+      });
+    });
+  }
 
   void _scanQRAndUnlockCheckpoint(BuildContext context) async {
     final result = await Navigator.push(
@@ -81,9 +107,7 @@ class _HomePageState extends State<HomePage> {
     ScaffoldMessenger.of(context)
       ..removeCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text('$result')));
-    setState(() {
-      completedCheckpoints += '$result ';
-    });
+    _unlockCheckpoint(result);
   }
 
   @override
@@ -147,8 +171,10 @@ class CheckpointsList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Image.network(photos[index].image,
-                  fit: BoxFit.cover, height: 200),
+              Image(
+                  image: CachedNetworkImageProvider(photos[index].image),
+                  fit: BoxFit.cover,
+                  height: 200),
               ListTile(
                 title: Text(photos[index].title),
                 subtitle: Text(photos[index].subtitle),
