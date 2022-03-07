@@ -1,17 +1,42 @@
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'checkpoint.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-Future<List<Checkpoint>> fetchData(http.Client client) async {
+void main() {
+  runApp(const OpenDaysApp());
+}
+
+void _launchURL(String _url) async {
+  if (!await launch(_url)) throw 'Could not launch $_url';
+}
+
+class Data {
+  final int version;
+  final String surveyUrl;
+  final List<Checkpoint> checkpoints;
+
+  Data(
+      {required this.version,
+      required this.surveyUrl,
+      required this.checkpoints});
+}
+
+Future<Data> fetchData(http.Client client) async {
   final response = await client.get(Uri.parse(
       'https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/data.json'));
-  return compute(parseCheckpoints, response.body);
+  return Data(
+      version: 0,
+      surveyUrl:
+          'https://docs.google.com/forms/d/e/1FAIpQLSeD4lz5MNHQpRkwR8D1woyJnV5QNJ_dvg-g-dFRUCvX_zR0JA/viewform?usp=sf_link',
+      checkpoints: parseCheckpoints(response.body));
 }
 
 List<Checkpoint> parseCheckpoints(String responseBody) {
@@ -19,10 +44,6 @@ List<Checkpoint> parseCheckpoints(String responseBody) {
       jsonDecode(responseBody)['checkpoints'].cast<Map<String, dynamic>>();
 
   return parsed.map<Checkpoint>((json) => Checkpoint.fromJson(json)).toList();
-}
-
-void main() {
-  runApp(const OpenDaysApp());
 }
 
 class OpenDaysApp extends StatelessWidget {
@@ -41,25 +62,6 @@ class OpenDaysApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       home: const HomePage(title: 'Dzień otwarty ILO'),
     );
-  }
-}
-
-class InfoPage extends StatelessWidget {
-  const InfoPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text('Informacje o aplikacji')),
-        body: Center(
-            child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset('assets/app_icon.png', fit: BoxFit.cover, height: 256),
-            const Text('by Antoni Czaplicki'),
-            const Text('Wersja aplikacji: TBA')
-          ],
-        )));
   }
 }
 
@@ -94,7 +96,6 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _unlockCheckpoint([String? id]) async {
     SharedPreferences prefs = await _prefs;
-    debugPrint(completedCheckpoints.toString());
     setState(() {
       if (id != null && !completedCheckpoints.contains(id)) {
         completedCheckpoints.add(id);
@@ -109,79 +110,148 @@ class _HomePageState extends State<HomePage> {
     _loadCompletedCheckpoints();
   }
 
-  void _scanQRAndUnlockCheckpoint(BuildContext context) async {
+  void _scanQRAndUnlockCheckpoint(BuildContext context,
+      [List<Checkpoint>? checkpoints]) async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const QRScanner()),
     );
+    if (checkpoints != null) {
+      var checkpoint = checkpoints
+          .firstWhereOrNull((element) => element.id.toString() == result);
+      if (checkpoint != null) {
+        ScaffoldMessenger.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(SnackBar(
+            content: Text('Zatwierdzono "${checkpoint.title}"'),
+            action: SnackBarAction(
+              label: 'Otwórz',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CheckpointDetails(
+                          checkpoint: checkpoint, isCompleted: true)),
+                );
+              },
+            ),
+          ));
+      } else {
+        ScaffoldMessenger.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(SnackBar(
+            content: Text('Zeskanowano nieznany kod ($result)'),
+          ));
+      }
+    } else {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(const SnackBar(
+          content: Text('Zeskanowano nieznany kod QR'),
+        ));
+    }
     _unlockCheckpoint(result);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(
-              Icons.info_outline,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const InfoPage()),
-              );
-            },
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.restore,
-            ),
-            onPressed: () async {
-              await _resetCompletedCheckpoints();
-            },
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.developer_mode,
-            ),
-            onPressed: () {
-              ScaffoldMessenger.of(context)
-                ..removeCurrentSnackBar()
-                ..showSnackBar(
-                    SnackBar(content: Text('$completedCheckpoints')));
-            },
-          )
-        ],
-      ),
-      body: FutureBuilder<List<Checkpoint>>(
+    return FutureBuilder<Data>(
         future: fetchData(http.Client()),
         builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return const Center(
-              child: Text('An error has occurred!'),
-            );
-          } else if (snapshot.hasData) {
-            return CheckpointsList(
-              data: snapshot.data!,
-              completedCheckpoints: completedCheckpoints,
-            );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _scanQRAndUnlockCheckpoint(context);
-        },
-        tooltip: 'Zeskanuj kod QR',
-        child: const Icon(Icons.qr_code),
-      ),
-    );
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(widget.title),
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(
+                    Icons.info_outline,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const InfoPage()),
+                    );
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.restore,
+                  ),
+                  onPressed: () async {
+                    await _resetCompletedCheckpoints();
+                  },
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.emoji_emotions_outlined,
+                  ),
+                  onPressed: () async {
+                    if (snapshot.hasError) {
+                      ScaffoldMessenger.of(context)
+                        ..removeCurrentSnackBar()
+                        ..showSnackBar(
+                            const SnackBar(content: Text('Brak internetu')));
+                    } else if (snapshot.hasData) {
+                      _launchURL(snapshot.data!.surveyUrl);
+                    }
+                  },
+                )
+              ],
+            ),
+            body: Builder(
+              builder: (context) {
+                if (snapshot.hasError) {
+                  return const Center(
+                    child: Text('An error has occurred!'),
+                  );
+                } else if (snapshot.hasData) {
+                  return CheckpointsList(
+                    data: snapshot.data!.checkpoints,
+                    completedCheckpoints: completedCheckpoints,
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                _scanQRAndUnlockCheckpoint(
+                    context,
+                    !snapshot.hasError && snapshot.hasData
+                        ? snapshot.data!.checkpoints
+                        : null);
+              },
+              tooltip: 'Zeskanuj kod QR',
+              child: const Icon(Icons.qr_code),
+            ),
+          );
+        });
+  }
+}
+
+class InfoPage extends StatelessWidget {
+  const InfoPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: const Text('Informacje o aplikacji')),
+        body: Center(
+            child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              child: Image.asset('assets/app_icon.png',
+                  fit: BoxFit.cover, height: 256),
+            ),
+            const Text('by Antoni Czaplicki'),
+            const Text('Wersja aplikacji: TBA')
+          ],
+        )));
   }
 }
 
@@ -214,10 +284,12 @@ class CheckpointsList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Image(
-                  image: CachedNetworkImageProvider(data[index].image),
-                  fit: BoxFit.cover,
-                  height: 200),
+              Hero(
+                  tag: data[index].id,
+                  child: Image(
+                      image: CachedNetworkImageProvider(data[index].image),
+                      fit: BoxFit.cover,
+                      height: 200)),
               ListTile(
                 title: Text(data[index].title),
                 subtitle: Text(data[index].subtitle),
@@ -280,10 +352,13 @@ class CheckpointDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image(
-                  image: CachedNetworkImageProvider(checkpoint.image),
-                  fit: BoxFit.cover,
-                  height: 300),
+              Hero(
+                tag: checkpoint.id,
+                child: Image(
+                    image: CachedNetworkImageProvider(checkpoint.image),
+                    fit: BoxFit.cover,
+                    height: 300),
+              ),
               Text(checkpoint.description),
               Text(checkpoint.location),
               isCompleted
