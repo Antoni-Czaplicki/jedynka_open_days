@@ -116,6 +116,7 @@ class _HomePageState extends State<HomePage> {
       context,
       MaterialPageRoute(builder: (context) => const QRScanner()),
     );
+    if (result == null) return;
     if (checkpoints != null) {
       var checkpoint = checkpoints
           .firstWhereOrNull((element) => element.id.toString() == result);
@@ -238,9 +239,9 @@ class InfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Informacje o aplikacji')),
-        body: Center(
-            child: Column(
+      appBar: AppBar(title: const Text('Informacje o aplikacji')),
+      body: Center(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ClipRRect(
@@ -251,7 +252,9 @@ class InfoPage extends StatelessWidget {
             const Text('by Antoni Czaplicki'),
             const Text('Wersja aplikacji: TBA')
           ],
-        )));
+        ),
+      ),
+    );
   }
 }
 
@@ -269,38 +272,42 @@ class CheckpointsList extends StatelessWidget {
       itemCount: data.length,
       itemBuilder: (context, index) {
         return Card(
-            child: InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
                   builder: (context) => CheckpointDetails(
-                      checkpoint: data[index],
-                      isCompleted: completedCheckpoints
-                          .contains(data[index].id.toString()))),
-            );
-          },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Hero(
+                    checkpoint: data[index],
+                    isCompleted: completedCheckpoints
+                        .contains(data[index].id.toString()),
+                  ),
+                ),
+              );
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Hero(
                   tag: data[index].id,
                   child: Image(
                       image: CachedNetworkImageProvider(data[index].image),
                       fit: BoxFit.cover,
-                      height: 200)),
-              ListTile(
-                title: Text(data[index].title),
-                subtitle: Text(data[index].subtitle),
-                leading:
-                    completedCheckpoints.contains(data[index].id.toString())
-                        ? const Icon(Icons.check_box)
-                        : const Icon(Icons.check_box_outline_blank),
-              ),
-            ],
+                      height: 200),
+                ),
+                ListTile(
+                  title: Text(data[index].title),
+                  subtitle: Text(data[index].subtitle),
+                  leading:
+                      completedCheckpoints.contains(data[index].id.toString())
+                          ? const Icon(Icons.check_box)
+                          : const Icon(Icons.check_box_outline_blank),
+                ),
+              ],
+            ),
           ),
-        ));
+        );
       },
     );
   }
@@ -328,10 +335,11 @@ class QRScanner extends StatelessWidget {
       );
     } else {
       return Scaffold(
-          appBar: AppBar(title: const Text('Web scanner')),
-          body: const Center(
-            child: Text('Not implemented yet'),
-          ));
+        appBar: AppBar(title: const Text('Web scanner')),
+        body: const Center(
+          child: Text('Not implemented yet'),
+        ),
+      );
     }
   }
 }
