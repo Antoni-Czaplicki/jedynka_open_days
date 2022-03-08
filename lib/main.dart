@@ -20,11 +20,13 @@ void _launchURL(String _url) async {
 
 class Data {
   final int version;
+  final int goal;
   final String surveyUrl;
   final List<Checkpoint> checkpoints;
 
   Data(
       {required this.version,
+      required this.goal,
       required this.surveyUrl,
       required this.checkpoints});
 }
@@ -34,7 +36,8 @@ Future<Data> fetchData(http.Client client) async {
       'https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/data.json'));
   return Data(
       version: jsonDecode(response.body)['version'],
-      surveyUrl: jsonDecode(response.body)['surveyUrl'],
+      goal: jsonDecode(response.body)['goal'],
+      surveyUrl: jsonDecode(response.body)['survey_url'],
       checkpoints: parseCheckpoints(response.body));
 }
 
@@ -85,13 +88,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> _resetCompletedCheckpoints() async {
-    SharedPreferences prefs = await _prefs;
-    setState(() {
-      completedCheckpoints = [];
-      prefs.setStringList('completedCheckpoints', completedCheckpoints);
-    });
-  }
+  // Future<void> _resetCompletedCheckpoints() async {
+  //   SharedPreferences prefs = await _prefs;
+  //   setState(() {
+  //     completedCheckpoints = [];
+  //     prefs.setStringList('completedCheckpoints', completedCheckpoints);
+  //   });
+  // }
 
   Future<void> _unlockCheckpoint([String? id]) async {
     SharedPreferences prefs = await _prefs;
@@ -164,21 +167,17 @@ class _HomePageState extends State<HomePage> {
               actions: <Widget>[
                 IconButton(
                   icon: const Icon(
-                    Icons.info_outline,
+                    Icons.redeem,
                   ),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const InfoPage()),
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.restore,
-                  ),
-                  onPressed: () async {
-                    await _resetCompletedCheckpoints();
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return const AlertDialog(
+                            title: Text('Nagroda'),
+                            content: Placeholder(),
+                          );
+                        });
                   },
                 ),
                 IconButton(
@@ -195,27 +194,23 @@ class _HomePageState extends State<HomePage> {
                       _launchURL(snapshot.data!.surveyUrl);
                     }
                   },
-                )
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.info_outline,
+                  ),
+                  onPressed: () {
+                    var dbVersion = snapshot.data?.version;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => InfoPage(dbVersion: dbVersion)),
+                    );
+                  },
+                ),
               ],
             ),
-            body: Builder(
-              builder: (context) {
-                if (snapshot.hasError) {
-                  return const Center(
-                    child: Text('An error has occurred!'),
-                  );
-                } else if (snapshot.hasData) {
-                  return CheckpointsList(
-                    data: snapshot.data!.checkpoints,
-                    completedCheckpoints: completedCheckpoints,
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
+            body: checkpointsList(snapshot),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 _scanQRAndUnlockCheckpoint(
@@ -230,10 +225,101 @@ class _HomePageState extends State<HomePage> {
           );
         });
   }
+
+  Builder checkpointsList(AsyncSnapshot<Data> snapshot) {
+    return Builder(
+      builder: (context) {
+        if (snapshot.hasError) {
+          return networkErrorWidget(context);
+        } else if (snapshot.hasData) {
+          var checkpoints = snapshot.data!.checkpoints;
+          return RefreshIndicator(
+            onRefresh: () async {
+              setState(() {});
+            },
+            child: ListView.builder(
+              itemCount: checkpoints.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CheckpointDetails(
+                            checkpoint: checkpoints[index],
+                            isCompleted: completedCheckpoints
+                                .contains(checkpoints[index].id.toString()),
+                          ),
+                        ),
+                      );
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Hero(
+                          tag: checkpoints[index].id,
+                          child: Image(
+                              image: CachedNetworkImageProvider(
+                                  checkpoints[index].image),
+                              fit: BoxFit.cover,
+                              height: 200),
+                        ),
+                        ListTile(
+                          title: Text(checkpoints[index].title),
+                          subtitle: Text(checkpoints[index].subtitle),
+                          leading: completedCheckpoints
+                                  .contains(checkpoints[index].id.toString())
+                              ? const Icon(Icons.check_box)
+                              : const Icon(Icons.check_box_outline_blank),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
+  }
+
+  RefreshIndicator networkErrorWidget(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        setState(() {});
+      },
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height -
+              AppBar().preferredSize.height,
+          child: Center(
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              const Text('Brak połączenia z internetem'),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {});
+                },
+                child: const Text('Odśwież'),
+              ),
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class InfoPage extends StatelessWidget {
-  const InfoPage({Key? key}) : super(key: key);
+  const InfoPage({Key? key, required this.dbVersion}) : super(key: key);
+  final int? dbVersion;
 
   @override
   Widget build(BuildContext context) {
@@ -248,66 +334,10 @@ class InfoPage extends StatelessWidget {
               child: Image.asset('assets/app_icon.png',
                   fit: BoxFit.cover, height: 256),
             ),
-            const Text('by Antoni Czaplicki'),
-            const Text('Wersja aplikacji: TBA')
+            Text('\nWersja bazy danych: ${dbVersion.toString()}')
           ],
         ),
       ),
-    );
-  }
-}
-
-class CheckpointsList extends StatelessWidget {
-  const CheckpointsList(
-      {Key? key, required this.data, required this.completedCheckpoints})
-      : super(key: key);
-
-  final List<Checkpoint> data;
-  final List<String> completedCheckpoints;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: data.length,
-      itemBuilder: (context, index) {
-        return Card(
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CheckpointDetails(
-                    checkpoint: data[index],
-                    isCompleted: completedCheckpoints
-                        .contains(data[index].id.toString()),
-                  ),
-                ),
-              );
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Hero(
-                  tag: data[index].id,
-                  child: Image(
-                      image: CachedNetworkImageProvider(data[index].image),
-                      fit: BoxFit.cover,
-                      height: 200),
-                ),
-                ListTile(
-                  title: Text(data[index].title),
-                  subtitle: Text(data[index].subtitle),
-                  leading:
-                      completedCheckpoints.contains(data[index].id.toString())
-                          ? const Icon(Icons.check_box)
-                          : const Icon(Icons.check_box_outline_blank),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }
