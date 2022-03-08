@@ -33,9 +33,8 @@ Future<Data> fetchData(http.Client client) async {
   final response = await client.get(Uri.parse(
       'https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/data.json'));
   return Data(
-      version: 0,
-      surveyUrl:
-          'https://docs.google.com/forms/d/e/1FAIpQLSeD4lz5MNHQpRkwR8D1woyJnV5QNJ_dvg-g-dFRUCvX_zR0JA/viewform?usp=sf_link',
+      version: jsonDecode(response.body)['version'],
+      surveyUrl: jsonDecode(response.body)['surveyUrl'],
       checkpoints: parseCheckpoints(response.body));
 }
 
