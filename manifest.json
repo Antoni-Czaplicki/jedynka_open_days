@@ -3,11 +3,18 @@
     "short_name": "jedynka_open_days",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
+    "background_color": "#222831",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Dni otwarte ILO.",
     "orientation": "portrait-primary",
-    "prefer_related_applications": false,
+    "prefer_related_applications": true,
+    "related_applications": [
+        {
+            "platform": "play",
+            "url": "https://play.google.com/store/apps/details?id=com.czaplicki.jedynka_open_days",
+            "id": "com.czaplicki.jedynka_open_days"
+        }
+    ],
     "icons": [
         {
             "src": "icons/Icon-192.png",
