@@ -1,6 +1,6 @@
 {
-    "name": "jedynka_open_days",
-    "short_name": "jedynka_open_days",
+    "name": "Dni otwarte ILO",
+    "short_name": "Dni otwarte ILO",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#222831",
