@@ -1,11 +1,11 @@
 {
-    "name": "Dni otwarte ILO",
-    "short_name": "Dni otwarte ILO",
+    "name": "Dzień otwarty ILO",
+    "short_name": "Dzień otwarty ILO",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#222831",
     "theme_color": "#0175C2",
-    "description": "Dni otwarte ILO.",
+    "description": "Dzień otwarty ILO.",
     "orientation": "portrait-primary",
     "prefer_related_applications": true,
     "related_applications": [

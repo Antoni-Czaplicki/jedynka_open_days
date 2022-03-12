@@ -61818,7 +61818,7 @@ $1(a){var s=J.ab(a)
 return new A.kj(A.ey(s.h(a,"id")),A.aV(s.h(a,"title")),A.aV(s.h(a,"subtitle")),A.aV(s.h(a,"location")),A.aV(s.h(a,"description")),A.aV(s.h(a,"image")))},
 $S:392}
 A.FU.prototype={
-K(a,b){return new A.vP(B.zu,"Dni Otwarte ILO",A.a4G(B.O),A.a4G(B.L),B.u4,null)}}
+K(a,b){return new A.vP(B.zu,"Dzie\u0144 otwarty ILO",A.a4G(B.O),A.a4G(B.L),B.u4,null)}}
 A.v0.prototype={
 aw(){return new A.L1(A.HT(),A.b([],t.s),B.k)}}
 A.L1.prototype={
