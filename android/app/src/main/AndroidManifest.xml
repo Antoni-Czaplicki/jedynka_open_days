@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.jedynka_open_days">
+    package="com.czaplicki.jedynka_open_days">
    <application
         android:label="Dzień otwarty ILO"
         android:name="${applicationName}"

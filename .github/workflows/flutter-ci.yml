@@ -59,7 +59,7 @@ jobs:
 
     - run: flutter pub get
 
-    - run: flutter build web --base-href '/${{ github.event.repository.name }}/'
+    - run: flutter build web
 
     - name: Deploy web app 🚀
       uses: JamesIves/github-pages-deploy-action@v4.2.5

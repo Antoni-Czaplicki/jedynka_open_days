@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:http/http.dart' as http;
@@ -54,7 +53,7 @@ class OpenDaysApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Dni Otwarte ILO',
+      title: 'Dzień otwarty ILO',
       theme: ThemeData(
         brightness: Brightness.light,
       ),
@@ -347,29 +346,14 @@ class QRScanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (defaultTargetPlatform == TargetPlatform.iOS ||
-        defaultTargetPlatform == TargetPlatform.android ||
-        defaultTargetPlatform == TargetPlatform.macOS) {
-      var scanned = false;
-      return Scaffold(
-        appBar: AppBar(title: const Text('Zeskanuj kod QR')),
-        body: MobileScanner(onDetect: (barcode, args) {
-          if (!scanned) {
-            final String? code = barcode.rawValue;
-            debugPrint('QR code found! $code');
-            scanned = true;
-            Navigator.pop(context, code);
-          }
-        }),
-      );
-    } else {
-      return Scaffold(
-        appBar: AppBar(title: const Text('Web scanner')),
-        body: const Center(
-          child: Text('Not implemented yet'),
-        ),
-      );
-    }
+    return Scaffold(
+      appBar: AppBar(title: const Text('Zeskanuj kod QR')),
+      body: MobileScanner(onDetect: (barcode, args) {
+        final String? code = barcode.rawValue;
+        debugPrint('QR code found! $code');
+        Navigator.pop(context, code);
+      }),
+    );
   }
 }
 

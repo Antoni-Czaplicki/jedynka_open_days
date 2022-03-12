@@ -1,4 +1,4 @@
-package com.example.jedynka_open_days
+package com.czaplicki.jedynka_open_days
 
 import io.flutter.embedding.android.FlutterActivity
 
