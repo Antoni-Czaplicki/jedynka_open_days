@@ -266,13 +266,16 @@ class _HomePageState extends State<HomePage> {
                               height: 200),
                         ),
                         ListTile(
-                          title: Text(checkpoints[index].title),
-                          subtitle: Text(checkpoints[index].subtitle),
-                          leading: completedCheckpoints
-                                  .contains(checkpoints[index].id.toString())
-                              ? const Icon(Icons.check_box)
-                              : const Icon(Icons.check_box_outline_blank),
-                        ),
+                            title: Text(checkpoints[index].title),
+                            subtitle: Text(checkpoints[index].subtitle),
+                            leading: Hero(
+                              tag: checkpoints[index].id.toString() +
+                                  '_check_box',
+                              child: completedCheckpoints.contains(
+                                      checkpoints[index].id.toString())
+                                  ? const Icon(Icons.check_box)
+                                  : const Icon(Icons.check_box_outline_blank),
+                            )),
                       ],
                     ),
                   ),
@@ -380,11 +383,17 @@ class CheckpointDetails extends StatelessWidget {
                     fit: BoxFit.cover,
                     height: 300),
               ),
-              Text(checkpoint.description),
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Text(checkpoint.description),
+              ),
               Text(checkpoint.location),
-              isCompleted
-                  ? const Icon(Icons.check_box)
-                  : const Icon(Icons.check_box_outline_blank),
+              Hero(
+                tag: checkpoint.id.toString() + '_check_box',
+                child: isCompleted
+                    ? const Icon(Icons.check_box)
+                    : const Icon(Icons.check_box_outline_blank),
+              )
             ],
           )
         ]));
