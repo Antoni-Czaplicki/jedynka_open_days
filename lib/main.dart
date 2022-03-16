@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:http/http.dart' as http;
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'checkpoint.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -89,14 +90,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  // Future<void> _resetCompletedCheckpoints() async {
-  //   SharedPreferences prefs = await _prefs;
-  //   setState(() {
-  //     completedCheckpoints = [];
-  //     prefs.setStringList('completedCheckpoints', completedCheckpoints);
-  //   });
-  // }
-
   Future<void> _unlockCheckpoint([String? id]) async {
     SharedPreferences prefs = await _prefs;
     setState(() {
@@ -111,6 +104,15 @@ class _HomePageState extends State<HomePage> {
     SharedPreferences prefs = await _prefs;
     setState(() {
       isLocked = true;
+      prefs.setBool('isLocked', isLocked);
+    });
+  }
+
+  //TODO: Remove that before release
+  Future<void> _unlockReward() async {
+    SharedPreferences prefs = await _prefs;
+    setState(() {
+      isLocked = false;
       prefs.setBool('isLocked', isLocked);
     });
   }
@@ -174,74 +176,11 @@ class _HomePageState extends State<HomePage> {
             appBar: AppBar(
               title: Text(widget.title),
               actions: <Widget>[
-                IconButton(
-                  icon: const Icon(
-                    Icons.redeem,
-                  ),
-                  onPressed: () {
-                    if (!snapshot.hasError && snapshot.hasData) {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text('Odbierz nagrodę'),
-                              content: Text(snapshot.hasData
-                                  ? "Zaliczone punkty: ${completedCheckpoints.length.toString()}/${snapshot.data!.goal.toString()} (${(completedCheckpoints.length / snapshot.data!.goal * 100).round()}%)"
-                                  : "Brak internetu"),
-                              actions: [
-                                TextButton(
-                                  onPressed: () =>
-                                      Navigator.pop(context, 'Cancel'),
-                                  child: const Text('Anuluj'),
-                                ),
-                                completedCheckpoints.length >=
-                                        snapshot.data!.goal
-                                    ? TextButton(
-                                        onPressed: () {},
-                                        child: const Text("Odbierz"))
-                                    : const TextButton(
-                                        onPressed: null,
-                                        child: Text(
-                                            "Za mało punktów aby\nodebrać nagrodę"))
-                              ],
-                            );
-                          });
-                    } else {
-                      ScaffoldMessenger.of(context)
-                        ..removeCurrentSnackBar()
-                        ..showSnackBar(
-                            const SnackBar(content: Text('Brak internetu')));
-                    }
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.emoji_emotions_outlined,
-                  ),
-                  onPressed: () async {
-                    if (snapshot.hasError) {
-                      ScaffoldMessenger.of(context)
-                        ..removeCurrentSnackBar()
-                        ..showSnackBar(
-                            const SnackBar(content: Text('Brak internetu')));
-                    } else if (snapshot.hasData) {
-                      _launchURL(snapshot.data!.surveyUrl);
-                    }
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.info_outline,
-                  ),
-                  onPressed: () {
-                    var dbVersion = snapshot.data?.version;
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => InfoPage(dbVersion: dbVersion)),
-                    );
-                  },
-                ),
+                (snapshot.data?.goal != -1)
+                    ? rewardIconButton(snapshot, context)
+                    : const SizedBox.shrink(),
+                surveyIconButton(snapshot, context),
+                infoPageIconButton(snapshot, context),
               ],
             ),
             body: checkpointsList(snapshot),
@@ -258,6 +197,146 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         });
+  }
+
+  IconButton rewardIconButton(
+      AsyncSnapshot<Data> snapshot, BuildContext context) {
+    return IconButton(
+      icon: const Icon(
+        Icons.card_giftcard,
+      ),
+      onPressed: () {
+        if (!snapshot.hasError && snapshot.hasData) {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text('Odbierz nagrodę'),
+                  content: Text(snapshot.hasData
+                      ? "Zaliczone punkty: ${completedCheckpoints.length.toString()}/${snapshot.data!.goal.toString()} (${(completedCheckpoints.length / snapshot.data!.goal * 100).round()}%)"
+                      : "Brak internetu"),
+                  actions: [
+                    TextButton(
+                      //TODO: Remove before release
+                      onPressed: () {
+                        Navigator.pop(context, 'unlock');
+                        _unlockReward();
+                      },
+                      child: const Text('[DEV] Unlock app'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                      child: const Text('Anuluj'),
+                    ),
+                    (completedCheckpoints.length == snapshot.data!.goal &&
+                            !isLocked)
+                        ? TextButton(
+                            child: const Text("Odbierz"),
+                            onPressed: () {
+                              Navigator.pop(context);
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text("Odbierz nageodę"),
+                                    content: const Text(
+                                        "Potwierdź odebranie nagrody. Spowoduje to zablokowanie aplikacji"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(context, 'Cancel'),
+                                        child: const Text('Anuluj'),
+                                      ),
+                                      TextButton(
+                                          onPressed: () {
+                                            _lockReward();
+                                            Navigator.pop(context);
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: const Text("Nagroda"),
+                                                  content: Container(
+                                                    width: 200.0,
+                                                    height: 200.0,
+                                                    alignment: Alignment.center,
+                                                    child: QrImage(
+                                                      data:
+                                                          "Nagroda - ${completedCheckpoints.length} punktów",
+                                                      version: QrVersions.auto,
+                                                    ),
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              context, 'OK'),
+                                                      child: const Text('Ok'),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: const Text("Odbierz nagrodę")),
+                                    ],
+                                  );
+                                },
+                              );
+                            })
+                        : !isLocked
+                            ? const TextButton(
+                                onPressed: null,
+                                child: Text(
+                                    "Za mało punktów aby\nodebrać nagrodę"))
+                            : const TextButton(
+                                onPressed: null,
+                                child: Text("Odebrałeś już nagrodę"))
+                  ],
+                );
+              });
+        } else {
+          ScaffoldMessenger.of(context)
+            ..removeCurrentSnackBar()
+            ..showSnackBar(const SnackBar(content: Text('Brak internetu')));
+        }
+      },
+    );
+  }
+
+  IconButton infoPageIconButton(
+      AsyncSnapshot<Data> snapshot, BuildContext context) {
+    return IconButton(
+      icon: const Icon(
+        Icons.info_outline,
+      ),
+      onPressed: () {
+        var dbVersion = snapshot.data?.version;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => InfoPage(dbVersion: dbVersion)),
+        );
+      },
+    );
+  }
+
+  IconButton surveyIconButton(
+      AsyncSnapshot<Data> snapshot, BuildContext context) {
+    return IconButton(
+      icon: const Icon(
+        Icons.emoji_emotions_outlined,
+      ),
+      onPressed: () async {
+        if (snapshot.hasError) {
+          ScaffoldMessenger.of(context)
+            ..removeCurrentSnackBar()
+            ..showSnackBar(const SnackBar(content: Text('Brak internetu')));
+        } else if (snapshot.hasData) {
+          _launchURL(snapshot.data!.surveyUrl);
+        }
+      },
+    );
   }
 
   Builder checkpointsList(AsyncSnapshot<Data> snapshot) {
