@@ -78,12 +78,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   List<String> completedCheckpoints = [];
+  bool isLocked = false;
 
-  void _loadCompletedCheckpoints() async {
+  void _loadSavedData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       completedCheckpoints =
           (prefs.getStringList('completedCheckpoints') ?? []);
+      isLocked = (prefs.getBool('isLocked') ?? false);
     });
   }
 
@@ -105,10 +107,18 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<void> _lockReward() async {
+    SharedPreferences prefs = await _prefs;
+    setState(() {
+      isLocked = true;
+      prefs.setBool('isLocked', isLocked);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    _loadCompletedCheckpoints();
+    _loadSavedData();
   }
 
   void _scanQRAndUnlockCheckpoint(BuildContext context,
@@ -169,14 +179,39 @@ class _HomePageState extends State<HomePage> {
                     Icons.redeem,
                   ),
                   onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return const AlertDialog(
-                            title: Text('Nagroda'),
-                            content: Placeholder(),
-                          );
-                        });
+                    if (!snapshot.hasError && snapshot.hasData) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Odbierz nagrodę'),
+                              content: Text(snapshot.hasData
+                                  ? "Zaliczone punkty: ${completedCheckpoints.length.toString()}/${snapshot.data!.goal.toString()} (${(completedCheckpoints.length / snapshot.data!.goal * 100).round()}%)"
+                                  : "Brak internetu"),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(context, 'Cancel'),
+                                  child: const Text('Anuluj'),
+                                ),
+                                completedCheckpoints.length >=
+                                        snapshot.data!.goal
+                                    ? TextButton(
+                                        onPressed: () {},
+                                        child: const Text("Odbierz"))
+                                    : const TextButton(
+                                        onPressed: null,
+                                        child: Text(
+                                            "Za mało punktów aby\nodebrać nagrodę"))
+                              ],
+                            );
+                          });
+                    } else {
+                      ScaffoldMessenger.of(context)
+                        ..removeCurrentSnackBar()
+                        ..showSnackBar(
+                            const SnackBar(content: Text('Brak internetu')));
+                    }
                   },
                 ),
                 IconButton(
@@ -268,7 +303,9 @@ class _HomePageState extends State<HomePage> {
                         ListTile(
                             title: Text(checkpoints[index].title),
                             subtitle: Text(checkpoints[index].subtitle),
-                            leading: Hero(
+                            enabled: completedCheckpoints
+                                .contains(checkpoints[index].id.toString()),
+                            trailing: Hero(
                               tag: checkpoints[index].id.toString() +
                                   '_check_box',
                               child: completedCheckpoints.contains(
@@ -383,17 +420,32 @@ class CheckpointDetails extends StatelessWidget {
                     fit: BoxFit.cover,
                     height: 300),
               ),
-              Padding(
-                padding: const EdgeInsets.all(15),
-                child: Text(checkpoint.description),
-              ),
-              Text(checkpoint.location),
-              Hero(
-                tag: checkpoint.id.toString() + '_check_box',
-                child: isCompleted
-                    ? const Icon(Icons.check_box)
-                    : const Icon(Icons.check_box_outline_blank),
-              )
+              Container(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(children: [
+                    ListTile(
+                      title: Text(checkpoint.title),
+                      subtitle: Text(checkpoint.description),
+                    ),
+                    ListTile(
+                      dense: true,
+                      leading: const Icon(
+                        Icons.location_on,
+                        color: Colors.green,
+                        size: 28,
+                      ),
+                      title: Text(
+                        checkpoint.location,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      trailing: Hero(
+                        tag: checkpoint.id.toString() + '_check_box',
+                        child: isCompleted
+                            ? const Icon(Icons.check_box)
+                            : const Icon(Icons.check_box_outline_blank),
+                      ),
+                    ),
+                  ]))
             ],
           )
         ]));
