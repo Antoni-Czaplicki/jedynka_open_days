@@ -108,15 +108,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  //TODO: Remove that before release
-  Future<void> _unlockReward() async {
-    SharedPreferences prefs = await _prefs;
-    setState(() {
-      isLocked = false;
-      prefs.setBool('isLocked', isLocked);
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -217,14 +208,6 @@ class _HomePageState extends State<HomePage> {
                       : "Brak internetu"),
                   actions: [
                     TextButton(
-                      //TODO: Remove before release
-                      onPressed: () {
-                        Navigator.pop(context, 'unlock');
-                        _unlockReward();
-                      },
-                      child: const Text('[DEV] Unlock app'),
-                    ),
-                    TextButton(
                       onPressed: () => Navigator.pop(context, 'Cancel'),
                       child: const Text('Anuluj'),
                     ),
@@ -262,7 +245,7 @@ class _HomePageState extends State<HomePage> {
                                                     alignment: Alignment.center,
                                                     child: QrImage(
                                                       data:
-                                                          "Nagroda - ${completedCheckpoints.length} punktów",
+                                                          "Nagroda - ${completedCheckpoints.length} pkt.",
                                                       version: QrVersions.auto,
                                                       backgroundColor:
                                                           Colors.white,
