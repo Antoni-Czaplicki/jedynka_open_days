@@ -228,7 +228,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () => Navigator.pop(context, 'Cancel'),
                       child: const Text('Anuluj'),
                     ),
-                    (completedCheckpoints.length == snapshot.data!.goal &&
+                    (completedCheckpoints.length >= snapshot.data!.goal &&
                             !isLocked)
                         ? TextButton(
                             child: const Text("Odbierz"),
@@ -264,6 +264,8 @@ class _HomePageState extends State<HomePage> {
                                                       data:
                                                           "Nagroda - ${completedCheckpoints.length} punktów",
                                                       version: QrVersions.auto,
+                                                      backgroundColor:
+                                                          Colors.white,
                                                     ),
                                                   ),
                                                   actions: [
