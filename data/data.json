@@ -1,13 +1,15 @@
 {
   "version": 0,
   "survey_url": "https://docs.google.com/forms/d/e/1FAIpQLSeD4lz5MNHQpRkwR8D1woyJnV5QNJ_dvg-g-dFRUCvX_zR0JA/viewform?usp=sf_link",
+  "reward_description": "W nagrodę za zaliczenie wszystkich punktów dostaniesz tzw. \"bon na niepytanie\", który będziesz mógł wykorzystać w pierwszym symestrze nauki w ILO.",
   "goal": 3,
   "checkpoints": [
     {
       "id": 1,
-      "title": "Food truck",
-      "subtitle": "Food truck subtitle",
-      "location": "Boisko szkolne",
+      "title": "Catering",
+      "subtitle": "Między Bułami",
+      "time" : "13:00 - 14:00",
+      "location": "Stołówka",
       "description": "Jedzonko",
       "image": "https://picsum.photos/seed/1/200/300"
     },
@@ -15,6 +17,7 @@
       "id": 2,
       "title": "Sala chemiczna",
       "subtitle": "Sala Chemiczna - podtytuł",
+      "time" : "10:00 - 11:00",
       "location": "201",
       "description": "Nie papu",
       "image": "https://picsum.photos/seed/2/200/300"
@@ -23,6 +26,7 @@
       "id": 3,
       "title": "Sala jakaś",
       "subtitle": "Sala jakaś - podtytuł",
+      "time" : "10:30 - 11:00",
       "location": "111",
       "description": "Nie chem",
       "image": "https://picsum.photos/seed/3/200/300"
@@ -31,6 +35,7 @@
       "id": 4,
       "title": "Sala inf",
       "subtitle": "Sala podtytuł",
+      "time" : "12:00 - 12:15",
       "location": "222",
       "description": "papu",
       "image": "https://picsum.photos/seed/4/200/300"
@@ -39,6 +44,7 @@
       "id": 5,
       "title": "Sala fiz",
       "subtitle": "Sala sub",
+      "time" : "12:00 - 13:00",
       "location": "211",
       "description": "wrrr",
       "image": "https://picsum.photos/seed/5/200/300"

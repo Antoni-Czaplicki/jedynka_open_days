@@ -22,12 +22,14 @@ class Data {
   final int version;
   final int goal;
   final String surveyUrl;
+  final String rewardDescription;
   final List<Checkpoint> checkpoints;
 
   Data(
       {required this.version,
       required this.goal,
       required this.surveyUrl,
+      required this.rewardDescription,
       required this.checkpoints});
 }
 
@@ -38,6 +40,7 @@ Future<Data> fetchData(http.Client client) async {
       version: jsonDecode(response.body)['version'],
       goal: jsonDecode(response.body)['goal'],
       surveyUrl: jsonDecode(response.body)['survey_url'],
+      rewardDescription: jsonDecode(response.body)['reward_description'],
       checkpoints: parseCheckpoints(response.body));
 }
 

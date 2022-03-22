@@ -5,12 +5,13 @@ part 'checkpoint.g.dart';
 @JsonSerializable()
 class Checkpoint {
   final int id;
-  final String title, subtitle, location, description, image;
+  final String title, subtitle, time, location, description, image;
 
   Checkpoint(
       {required this.id,
       required this.title,
       required this.subtitle,
+      required this.time,
       required this.location,
       required this.description,
       required this.image});
