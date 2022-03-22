@@ -207,7 +207,7 @@ class _HomePageState extends State<HomePage> {
                 return AlertDialog(
                   title: const Text('Odbierz nagrodę'),
                   content: Text(snapshot.hasData
-                      ? "Zaliczone punkty: ${completedCheckpoints.length.toString()}/${snapshot.data!.goal.toString()} (${(completedCheckpoints.length / snapshot.data!.goal * 100).round()}%)"
+                      ? "${snapshot.data?.rewardDescription}\n\nZaliczone punkty: ${completedCheckpoints.length.toString()}/${snapshot.data!.goal.toString()} (${(completedCheckpoints.length / snapshot.data!.goal * 100).round()}%)"
                       : "Brak internetu"),
                   actions: [
                     TextButton(
@@ -339,51 +339,86 @@ class _HomePageState extends State<HomePage> {
               setState(() {});
             },
             child: ListView.builder(
-              itemCount: checkpoints.length,
+              itemCount: checkpoints.length + 1,
               itemBuilder: (context, index) {
-                return Card(
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CheckpointDetails(
-                            checkpoint: checkpoints[index],
-                            isCompleted: completedCheckpoints
-                                .contains(checkpoints[index].id.toString()),
+                if (index == 0) {
+                  return Card(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ScheduleDetails(
+                                events: checkpoints,
+                                completedCheckpoints: completedCheckpoints),
                           ),
-                        ),
-                      );
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Hero(
-                          tag: checkpoints[index].id,
-                          child: Image(
-                              image: CachedNetworkImageProvider(
-                                  checkpoints[index].image),
-                              fit: BoxFit.cover,
-                              height: 200),
-                        ),
-                        ListTile(
-                            title: Text(checkpoints[index].title),
-                            subtitle: Text(checkpoints[index].subtitle),
-                            enabled: completedCheckpoints
-                                .contains(checkpoints[index].id.toString()),
-                            trailing: Hero(
-                              tag: checkpoints[index].id.toString() +
-                                  '_check_box',
-                              child: completedCheckpoints.contains(
-                                      checkpoints[index].id.toString())
-                                  ? const Icon(Icons.check_box)
-                                  : const Icon(Icons.check_box_outline_blank),
-                            )),
-                      ],
+                        );
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: const <Widget>[
+                          Hero(
+                            tag: "schedule",
+                            child: Image(
+                                image: CachedNetworkImageProvider(
+                                    "https://www.itepexam.com/wp-content/uploads/2019/10/Header-1024x801.png"),
+                                fit: BoxFit.cover,
+                                height: 300),
+                          ),
+                          ListTile(
+                            title: Text("Plan dnia otwartego"),
+                            subtitle: Text("Co, gdzie, kiedy i jak?"),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
+                  );
+                } else {
+                  return Card(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CheckpointDetails(
+                              checkpoint: checkpoints[index - 1],
+                              isCompleted: completedCheckpoints.contains(
+                                  checkpoints[index - 1].id.toString()),
+                            ),
+                          ),
+                        );
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Hero(
+                            tag: checkpoints[index - 1].id,
+                            child: Image(
+                                image: CachedNetworkImageProvider(
+                                    checkpoints[index - 1].image),
+                                fit: BoxFit.cover,
+                                height: 200),
+                          ),
+                          ListTile(
+                              title: Text(checkpoints[index - 1].title),
+                              subtitle: Text(checkpoints[index - 1].subtitle),
+                              enabled: completedCheckpoints.contains(
+                                  checkpoints[index - 1].id.toString()),
+                              trailing: Hero(
+                                tag: checkpoints[index - 1].id.toString() +
+                                    '_check_box',
+                                child: completedCheckpoints.contains(
+                                        checkpoints[index - 1].id.toString())
+                                    ? const Icon(Icons.check_box)
+                                    : const Icon(Icons.check_box_outline_blank),
+                              )),
+                        ],
+                      ),
+                    ),
+                  );
+                }
               },
             ),
           );
@@ -516,5 +551,48 @@ class CheckpointDetails extends StatelessWidget {
             ],
           )
         ]));
+  }
+}
+
+class ScheduleDetails extends StatelessWidget {
+  const ScheduleDetails(
+      {Key? key, required this.events, required this.completedCheckpoints})
+      : super(key: key);
+  final List<Checkpoint> events;
+  final List<String> completedCheckpoints;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: const Text("Plan dnia otwartego")),
+        body: ListView.builder(
+            itemCount: events.length,
+            itemBuilder: (context, index) {
+              return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CheckpointDetails(
+                          checkpoint: events[index],
+                          isCompleted: completedCheckpoints
+                              .contains(events[index].id.toString()),
+                        ),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    child: ListTile(
+                      dense: true,
+                      leading: Text(events[index].time),
+                      title: Text(
+                        events[index].title,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      trailing: Text(events[index].location),
+                    ),
+                  ));
+            }));
   }
 }
