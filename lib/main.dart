@@ -512,9 +512,34 @@ class QRScanner extends StatelessWidget {
           showDialog(
               context: context,
               builder: (BuildContext context) {
-                return const AlertDialog(
-                  title: Text("Wprowdź kod punktu"),
-                  content: Text("Dostępne wkrótce"),
+                TextEditingController _textFieldController =
+                    TextEditingController();
+                String? code;
+                return AlertDialog(
+                  title: const Text("Wprowdź kod punktu"),
+                  content: TextField(
+                    onChanged: (value) {
+                      code = value;
+                    },
+                    controller: _textFieldController,
+                    decoration: const InputDecoration(hintText: "Kod"),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text('Anuluj'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                    ),
+                    TextButton(
+                      child: const Text('Zatwierdź'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context, code);
+                      },
+                    ),
+                  ],
                 );
               });
         },
