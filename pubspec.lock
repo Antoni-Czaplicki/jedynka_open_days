@@ -383,9 +383,11 @@ packages:
   mobile_scanner:
     dependency: "direct main"
     description:
-      name: mobile_scanner
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: master
+      resolved-ref: "795373f520097693d5ff35a31ad19e0f33b38e14"
+      url: "https://github.com/Antoni-Czaplicki/mobile_scanner.git"
+    source: git
     version: "1.0.0"
   octo_image:
     dependency: transitive

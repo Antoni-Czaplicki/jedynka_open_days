@@ -204,17 +204,27 @@ class _HomePageState extends State<HomePage> {
           showDialog(
               context: context,
               builder: (BuildContext context) {
+                List<String> validCompletedCheckpoints = [];
+                if (snapshot.hasData) {
+                  for (final checkpoint in completedCheckpoints) {
+                    if (snapshot.data!.checkpoints
+                        .map((item) => item.id.toString())
+                        .contains(checkpoint)) {
+                      validCompletedCheckpoints.add(checkpoint);
+                    }
+                  }
+                }
                 return AlertDialog(
                   title: const Text('Odbierz nagrodę'),
                   content: Text(snapshot.hasData
-                      ? "${snapshot.data?.rewardDescription}\n\nZaliczone punkty: ${completedCheckpoints.length.toString()}/${snapshot.data!.goal.toString()} (${(completedCheckpoints.length / snapshot.data!.goal * 100).round()}%)"
+                      ? "${snapshot.data?.rewardDescription}\n\nZaliczone punkty: ${validCompletedCheckpoints.length.toString()}/${snapshot.data!.goal.toString()} (${(validCompletedCheckpoints.length / snapshot.data!.goal * 100).round()}%)"
                       : "Brak internetu"),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context, 'Cancel'),
                       child: const Text('Anuluj'),
                     ),
-                    (completedCheckpoints.length >= snapshot.data!.goal &&
+                    (validCompletedCheckpoints.length >= snapshot.data!.goal &&
                             !isLocked)
                         ? TextButton(
                             child: const Text("Odbierz"),
@@ -248,7 +258,7 @@ class _HomePageState extends State<HomePage> {
                                                     alignment: Alignment.center,
                                                     child: QrImage(
                                                       data:
-                                                          "Nagroda - ${completedCheckpoints.length} pkt.",
+                                                          "Nagroda - ${validCompletedCheckpoints.length} pkt.",
                                                       version: QrVersions.auto,
                                                       backgroundColor:
                                                           Colors.white,
@@ -362,7 +372,7 @@ class _HomePageState extends State<HomePage> {
                             tag: "schedule",
                             child: Image(
                                 image: CachedNetworkImageProvider(
-                                    "https://www.itepexam.com/wp-content/uploads/2019/10/Header-1024x801.png"),
+                                    "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/schedule.png"),
                                 fit: BoxFit.cover,
                                 height: 300),
                           ),
@@ -495,6 +505,20 @@ class QRScanner extends StatelessWidget {
         debugPrint('QR code found! $code');
         Navigator.pop(context, code);
       }),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.keyboard),
+        tooltip: "Wpisz kod",
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const AlertDialog(
+                  title: Text("Wprowdź kod punktu"),
+                  content: Text("Dostępne wkrótce"),
+                );
+              });
+        },
+      ),
     );
   }
 }
