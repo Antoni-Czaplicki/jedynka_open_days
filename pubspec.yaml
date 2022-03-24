@@ -34,7 +34,11 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  mobile_scanner: ^1.0.0
+  # mobile_scanner: ^1.0.0
+  mobile_scanner:
+    git:
+      url: https://github.com/Antoni-Czaplicki/mobile_scanner.git
+      ref: master
   json_annotation: ^4.4.0
   http: ^0.13.4
   shared_preferences: ^2.0.13
