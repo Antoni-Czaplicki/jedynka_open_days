@@ -1,53 +1,62 @@
 {
-  "version": 0,
-  "survey_url": "https://docs.google.com/forms/d/e/1FAIpQLSeD4lz5MNHQpRkwR8D1woyJnV5QNJ_dvg-g-dFRUCvX_zR0JA/viewform?usp=sf_link",
-  "reward_description": "W nagrodę za zaliczenie wszystkich punktów dostaniesz tzw. \"bon na niepytanie\", który będziesz mógł wykorzystać w pierwszym symestrze nauki w ILO.",
-  "goal": 3,
+  "version": 1,
+  "survey_url": "https://docs.google.com/forms/d/e/1FAIpQLSfGDGhkKB1ovPjTKltdK8mVAp3w3xJwCffp0YRMPnDy0dendw/viewform",
+  "reward_description": "Po odwiedzeniu 15 stanowisk i zeskanowaniu na nich kodów, udaj się do stanowiska informacyjnego, gdzie będziesz mógł odebrać nagrodę!",
+  "goal": 15,
   "checkpoints": [
     {
-      "id": 1,
-      "title": "Catering",
-      "subtitle": "Między Bułami",
-      "time" : "13:00 - 14:00",
-      "location": "Stołówka",
-      "description": "Jedzonko",
-      "image": "https://picsum.photos/seed/1/200/300"
+      "id": 3452,
+      "title": "Pokazy Cansat",
+      "subtitle": "Atomic Sky",
+      "time" : "10:30, 11:30,\n12:30, 13:30",
+      "location": "203",
+      "description": "Nasi uczniowie biorą udział w konkursie Cansat pod nazwą “Atomic Sky”. Podczas swoich pokazów przybliżą Wam swoją działalność!",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/atomicsky.jpg"
     },
     {
-      "id": 2,
-      "title": "Sala chemiczna",
-      "subtitle": "Sala Chemiczna - podtytuł",
-      "time" : "10:00 - 11:00",
+      "id": 4201,
+      "title": "Pokazy w sali chemicznej",
+      "subtitle": "🧪",
+      "time" : "10:00 - 13:30",
       "location": "201",
-      "description": "Nie papu",
-      "image": "https://picsum.photos/seed/2/200/300"
+      "description": "Opis",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/pokazy_chemiczne.jpg"
     },
     {
-      "id": 3,
-      "title": "Sala jakaś",
-      "subtitle": "Sala jakaś - podtytuł",
-      "time" : "10:30 - 11:00",
-      "location": "111",
-      "description": "Nie chem",
-      "image": "https://picsum.photos/seed/3/200/300"
+      "id": 11911110811097321129710810111511612111097,
+      "title": "Spotkanie z dyrekcją",
+      "subtitle": "",
+      "time" : "11:30, 13:00",
+      "location": "Stołówka",
+      "description": "",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/spotkanie_z_dyrekcja.jpg"
     },
     {
-      "id": 4,
-      "title": "Sala inf",
-      "subtitle": "Sala podtytuł",
-      "time" : "12:00 - 12:15",
-      "location": "222",
-      "description": "papu",
-      "image": "https://picsum.photos/seed/4/200/300"
+      "id": 1061019897993210512211497101108,
+      "title": "Belgijka",
+      "subtitle": "Taniec którego nie trzeba przedstawiać",
+      "time" : "12:00",
+      "location": "Boisko",
+      "description": "Punktualnie o 12:00 zapraszamy wszystkich na boisko szkolne, gdzie wspólnie zatańczymy belgijkę!",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/belgijka.jpg"
     },
     {
-      "id": 5,
-      "title": "Sala fiz",
-      "subtitle": "Sala sub",
-      "time" : "12:00 - 13:00",
-      "location": "211",
-      "description": "wrrr",
-      "image": "https://picsum.photos/seed/5/200/300"
+      "id": 1021141011013211297108101115116105110101,
+      "title": "Catering “Między bułami”",
+      "subtitle": "Jedzonko",
+      "time" : "10:00-13:00",
+      "location": "Stołówka",
+      "description": "Zapraszamy na pyszne specjały od śniadaniarni “Między bułami”",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/jedzonko.jpg"
+    },
+    {
+      "id": 4020006090,
+      "title": "Stanowiska tematyczne",
+      "subtitle": "",
+      "time" : "10:00-14:00",
+      "location": "",
+      "description": "Nie ma mnie tu 🙃\n\nPS. wracaj na główną",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/stanowiska.jpg"
     }
   ]
 }
