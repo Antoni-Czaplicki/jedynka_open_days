@@ -35,7 +35,7 @@
       "id": 1061019,
       "title": "Belgijka",
       "subtitle": "Taniec którego nie trzeba przedstawiać",
-      "time" : "12:00",
+      "time" : "12:00 - 12:15",
       "location": "Boisko",
       "description": "Punktualnie o 12:00 zapraszamy wszystkich na boisko szkolne, gdzie wspólnie zatańczymy belgijkę!",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/belgijka.jpg"
@@ -51,7 +51,7 @@
     },
     {
       "id": 4020006090,
-      "title": "Stanowiska tematyczne",
+      "title": "Stanowiska tematyczne:",
       "subtitle": "",
       "time" : "10:00-14:00",
       "location": "",
