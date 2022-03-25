@@ -57,6 +57,33 @@
       "location": "",
       "description": "Nie ma mnie tu 🙃\n\nPS. wracaj na główną",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/stanowiska.jpg"
+    },
+    {
+      "id": 1010,
+      "title": "Stanowisko biologiczne",
+      "subtitle": "Skamieliny, ta ta ta",
+      "time": "",
+      "location": "sale 3 i 4",
+      "description" : "W tych salach dowiecie się wszystkiego o rozszerzeniu z biologii, a także będziecie mieli okazję wziąć udział w ciekawych grach i zobaczyć doświadczenia przygotowane przez naszych uczniów i nauczycieli!",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/biologia.jpg"
+    },
+    {
+      "id": 2020,
+      "title": "Stanowisko  j. niemieckiego",
+      "subtitle": "Schmetterling",
+      "time": "",
+      "location": "sala 5",
+      "description": "Nasi sympatyczni germaniści chętnie opowiedzą Wam o swoich lekcjach i podzielą się swoimi doświadczeniami z pracy z uczniami. Również będziecie mogli poznać naszego wolontariusza z Niemiec. Na pewno dowiecie się także dlaczego warto uczyć się języka niemieckiego!",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/niemiecki.jpg"
+    },
+    {
+      "id": 3030,
+      "title": "Kurs pierwszej pomocy",
+      "subtitle": "EDB itp.",
+      "time": "",
+      "location": "sala 6",
+      "description": "W tej sali czekają na Was zajęcia, podczas których dowiecie się jak zachować się w sytuacji bezpośredniego zagrożenia. Połączmy przyjemne z pożytecznym i dowiedzmy się jak zachować się, gdy coś się wydarzy! ",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/edb.jpg"
     }
   ]
 }
