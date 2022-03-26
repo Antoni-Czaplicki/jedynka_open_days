@@ -41,7 +41,7 @@
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/belgijka.jpg"
     },
     {
-      "id": 1021141,
+      "id": 1248,
       "title": "Catering “Między bułami”",
       "subtitle": "Jedzonko",
       "time" : "10:00-13:00",
@@ -84,6 +84,141 @@
       "location": "sala 6",
       "description": "W tej sali czekają na Was zajęcia, podczas których dowiecie się jak zachować się w sytuacji bezpośredniego zagrożenia. Połączmy przyjemne z pożytecznym i dowiedzmy się jak zachować się, gdy coś się wydarzy! ",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/edb.jpg"
+    },
+    {
+      "id": 1507,
+      "title": "Stanowisko SU",
+      "subtitle": "Samorząd Uczniowski",
+      "time": "",
+      "location": "Samorządówka",
+      "description": "W centrum dowodzenia Samorządu czekać będzie na Was Przewodniczący, który chętnie odpowie na wszelkie pytania i omówi zarówno ubiegłe, jak i przyszłe akcje, w których Jedynka będzie brała udział. Jeśli będziecie mieli jakieś pomysły, drzwi do samorządówki zawsze będą dla Was otwarte!",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/samorzad.jpg"
+    },
+    {
+      "id": 3506,
+      "title": "Stanowisko SCPPP",
+      "subtitle": "Szkolne Centrum Pomocy Psychologiczno-Pedagogicznej",
+      "time": "",
+      "location": "Chillroom",
+      "description": "W naszej szkole każdy uczeń może uzyskać pomoc w trudnej sytuacji. W chillroomie możecie poznać naszych psychologów i pedagogów, a także dowiedzieć się trochę o ich pracy. ",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/scppp.jpg"
+    },
+    {
+      "id": 4505,
+      "title": "Stanowisko biblioteczne",
+      "subtitle": "Szkolna biblioteka",
+      "time": "",
+      "location": "Biblioteka",
+      "description": "W naszej skarbnicy wiedzy dowiecie się wszystkiego z zakresu ekonomii, prawa, a także znajdziesz każdą z obowiązujących lektur. W wolnych chwilach możecie zagrać tu w szachy lub inne gry planszowe. To idealne miejsce dla miłośników ciszy i spokoju, a wszystkie chwile w bibliotece spędzicie w przemiłym towarzystwie!",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/biblioteka.jpg"
+    },
+    {
+      "id": 3504,
+      "title": "Stanowisko geograficzne i PP",
+      "subtitle": "Geografia oraz Podstawy Przedsiębiorczości",
+      "time": "",
+      "location": "Sala 212",
+      "description": "W tej sali odkryjecie unikatowe połączenie geografii i podstaw przedsiębiorczości. Nasze niezwykłe nauczycielki opowiedzą Wam o skałach i pokażą najciekawsze miejsca na mapie świata, a także będziecie mogli zagrać w grę dotyczącą zarządzania budżetem. Zapraszamy, bo na pewno będzie się tu działo!",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/geografia.jpg"
+    },
+    {
+      "id": 5503,
+      "title": "Stanowisko fizyczne",
+      "subtitle": "Lekcja pokazowa",
+      "time": "",
+      "location": "Sala 210",
+      "description": "Nasi fizycy nie mają żadnych oporów, by przekazać wam wszystkie tajniki fizyki. Dobry humor i uśmiech na ich lekcjach to podstawa. Zachęcamy Was do wzięcia udziału w przygotowanych na dziś doświadczeniach! ",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/fizyka.jpg"
+    },
+    {
+      "id": 3503,
+      "title": "Stanowisko RPU",
+      "subtitle": "Rzecznik Praw Ucznia",
+      "time": "",
+      "location": "Sala 206",
+      "description": "W tej sali poznacie naszego Rzecznika Praw Ucznia, który chętnie opowie o swojej szkolnej działalności i z pewnością podzieli się swoją wiedzą z zakresu praw ucznia.",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/rpu.jpg"
+    },
+    {
+      "id": 8502,
+      "title": "Stanowisko matematyczne",
+      "subtitle": "Zapoznanie z systemem nauczania z matematyki",
+      "time": "",
+      "location": "Sala 205",
+      "description": "Na stanowisku matematycznym poznacie naszych niesamowicie pomocnych matematyków, dzięki którym zrozumienie nawet najtrudniejszych zagadek matematycznych stanie się proste i przyjemne!",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/matematyka.jpg"
+    },
+    {
+      "id": 3609,
+      "title": "Stanowisko chemiczne",
+      "subtitle": "Doświadczenia chemiczne",
+      "time": "",
+      "location": "Sala 201",
+      "description": "W sali chemicznej czeka na Was moc atrakcji: nasi uczniowie wraz z nauczycielami zaprezentują Wam niesamowite doświadczenia, które z pewnością wywołają wiele emocji, a może nawet przeważą podczas wybierania Waszych przyszłych profili klas...",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/chemia.jpg"
+    },
+    {
+      "id": 1608,
+      "title": "Stanowisko j. francuskiego",
+      "subtitle": "Prezentacja sytemu nauki j. francuskiego",
+      "time": "",
+      "location": "Sala 112",
+      "description": "Tutaj spotkacie naszych nauczycieli języka francuskiego, którzy bardzo serdecznie Was przywitają i opowiedzą o tym, jak prowadzą lekcje. Zapraszamy!",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/francuski.jpg"
+    },
+    {
+      "id": 3607,
+      "title": "Stanowisko j. angielskiego",
+      "subtitle": "Prezentacja sytemu nauki j. angielskiego",
+      "time": "",
+      "location": "Sala 106",
+      "description": "Na tym stanowisku będziecie mogli poznać naszych wyjątkowych nauczycieli języka angielskiego, którzy z pewnością powitają Was sporą dawką dobrego humoru! Zobaczycie, jak wyglądają zajęcia i dowiecie się, dlaczego wszyscy tak bardzo je kochają!",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/angielski.jpg"
+    },
+    {
+      "id": 2606,
+      "title": "Stanowisko polonistyczne",
+      "subtitle": "Kawiarenka literacka",
+      "time": "",
+      "location": "Sale 102 i 103",
+      "description": "Nasi cudowni poloniści stale zarażają nas swoją pasją do nauk humanistycznych. Kto wie, może podczas Dni Otwartych odkryjecie w sobie duszę miłośnika literatury bądź poety...",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/polski.jpg"
+    },
+    {
+      "id": 5605,
+      "title": "Stanowisko sekcji ekologicznej SU",
+      "subtitle": "Prezentacja jednej z sekcji Samorządu Uczniowskiego",
+      "time": "",
+      "location": "korytarz na I piętrze",
+      "description": "Jedna z sekcji naszego Samorządu przygotowała dla Was stanowisko, na którym możecie dowiedzieć się więcej na temat swoich działań na rzecz szkoły, a także sposobów, by zrozumieć, jak działa nasza planeta i w jaki sposób każdy z Was może zapobiec jej degradacji.",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/ekologiczna.jpg"
+    },
+    {
+      "id": 8605,
+      "title": "Stanowisko historyczne",
+      "subtitle": "Co było pierwsze - kura czy jajko?",
+      "time": "",
+      "location": "sale 7 i 8",
+      "description": "Nasi historycy nigdy nie pozwalają nam się nudzić, tak będzie i tym razem. Weźcie udział w Konkursie Historyczno-Magicznym i przekonajcie się sami! ",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/historia.jpg"
+    },
+    {
+      "id": 7301,
+      "title": "Stanowisko Safe Space",
+      "subtitle": "Cosmos",
+      "time": "",
+      "location": "korytarz na I piętrze",
+      "description": "Jedna z sekcji naszego Samorządu przygotowała dla Was stanowisko, na którym możecie dowiedzieć się więcej na temat swoich działań na rzecz szkoły, a także sposobów, by zrozumieć, jak działa nasza planeta i w jaki sposób każdy z Was może zapobiec jej degradacji.",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/safespace.jpg"
+    },
+    {
+      "id": 2473,
+      "title": "Stanowisko wolontariatu",
+      "subtitle": "Solusia",
+      "time": "",
+      "location": "korytarz na I piętrze",
+      "description": "Uczniowie naszej szkoły tworzą własne społeczności, w których każdy może czuć się sobą. Jedną z nich jest klub “Safe Space”, gdzie każdy może porozmawiać na istotne dla siebie tematy w bezpiecznej przestrzeni, w której nie będzie oceniany niezależnie od tego kim jest. ",
+      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/wolontariat.jpg"
     }
   ]
 }
