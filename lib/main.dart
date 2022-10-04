@@ -2,20 +2,22 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'checkpoint.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'checkpoint.dart';
 
 void main() {
   runApp(const OpenDaysApp());
 }
 
-void _launchURL(String _url) async {
-  if (!await launch(_url)) throw 'Could not launch $_url';
+void _launchURL(Uri _url) async {
+  if (!await launchUrl(_url)) throw 'Could not launch $_url';
 }
 
 class Data {
@@ -54,19 +56,29 @@ List<Checkpoint> parseCheckpoints(String responseBody) {
 class OpenDaysApp extends StatelessWidget {
   const OpenDaysApp({Key? key}) : super(key: key);
 
+  static final _defaultLightColorScheme =
+      ColorScheme.fromSwatch(primarySwatch: Colors.blue);
+
+  static final _defaultDarkColorScheme = ColorScheme.fromSwatch(
+      primarySwatch: Colors.blue, brightness: Brightness.dark);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Dzień otwarty ILO',
-      theme: ThemeData(
-        brightness: Brightness.light,
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-      ),
-      themeMode: ThemeMode.system,
-      home: const HomePage(title: 'Dzień otwarty ILO'),
-    );
+    return DynamicColorBuilder(builder: (lightColorScheme, darkColorScheme) {
+      return MaterialApp(
+        title: 'Dzień otwarty ILO',
+        theme: ThemeData(
+          colorScheme: lightColorScheme ?? _defaultLightColorScheme,
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData(
+          colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
+          useMaterial3: true,
+        ),
+        themeMode: ThemeMode.system,
+        home: const HomePage(title: 'Dzień otwarty ILO'),
+      );
+    });
   }
 }
 
@@ -331,7 +343,7 @@ class _HomePageState extends State<HomePage> {
             ..removeCurrentSnackBar()
             ..showSnackBar(const SnackBar(content: Text('Brak internetu')));
         } else if (snapshot.hasData) {
-          _launchURL(snapshot.data!.surveyUrl);
+          _launchURL(Uri.parse(snapshot.data!.surveyUrl));
         }
       },
     );
