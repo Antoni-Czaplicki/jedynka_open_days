@@ -424,7 +424,14 @@ class _HomePageState extends State<HomePage> {
                                 height: 200),
                           ),
                           ListTile(
-                              title: Text(checkpoints[index - 1].title),
+                              title: Hero(
+                                  tag: checkpoints[index - 1].id.toString() +
+                                      "_title",
+                                  transitionOnUserGestures: true,
+                                  child: Material(
+                                    type: MaterialType.transparency,
+                                    child: Text(checkpoints[index - 1].title),
+                                  )),
                               subtitle: Text(checkpoints[index - 1].subtitle),
                               enabled: completedCheckpoints.contains(
                                   checkpoints[index - 1].id.toString()),
@@ -587,7 +594,14 @@ class CheckpointDetails extends StatelessWidget {
                   padding: const EdgeInsets.all(8),
                   child: Column(children: [
                     ListTile(
-                      title: Text(checkpoint.title),
+                      title: Hero(
+                        tag: checkpoint.id.toString() + "_title",
+                        transitionOnUserGestures: true,
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: Text(checkpoint.title),
+                        ),
+                      ),
                       subtitle: Text(checkpoint.description),
                     ),
                     ListTile(
