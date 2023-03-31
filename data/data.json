@@ -1,41 +1,23 @@
 {
-  "version": 1,
-  "survey_url": "https://docs.google.com/forms/d/e/1FAIpQLSfGDGhkKB1ovPjTKltdK8mVAp3w3xJwCffp0YRMPnDy0dendw/viewform",
-  "reward_description": "Po odwiedzeniu 15 stanowisk i zeskanowaniu na nich kodów, udaj się do stanowiska informacyjnego, gdzie będziesz mógł odebrać nagrodę!",
-  "goal": 15,
+  "version": 230,
+  "survey_url": "https://www.facebook.com/jedynka.zg",
+  "reward_description": "Po odwiedzeniu conajmniej 12 stanowisk i zeskanowaniu na nich kodów, udaj się do stanowiska informacyjnego, gdzie będziesz mógł odebrać nagrodę!",
+  "goal": 12,
   "checkpoints": [
     {
-      "id": 3452,
-      "title": "Pokazy Cansat",
-      "subtitle": "Atomic Sky",
-      "time" : "10:30, 11:30,\n12:30, 13:30",
-      "location": "203",
-      "description": "Nasi uczniowie biorą udział w konkursie Cansat pod nazwą “Atomic Sky”. Podczas swoich pokazów przybliżą Wam swoją działalność!",
-      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/atomicsky.jpg"
-    },
-    {
-      "id": 4201,
-      "title": "Pokazy w sali chemicznej",
-      "subtitle": "🧪",
-      "time" : "10:00 - 13:30",
-      "location": "201",
-      "description": "Opis",
-      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/pokazy_chemiczne.jpg"
-    },
-    {
-      "id": 1191111,
+      "id": 9091,
       "title": "Spotkanie z dyrekcją",
       "subtitle": "",
-      "time" : "11:30, 13:00",
+      "time" : "11:30-12:30 ",
       "location": "Stołówka",
       "description": "",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/spotkanie_z_dyrekcja.jpg"
     },
     {
-      "id": 1061019,
+      "id": 2752,
       "title": "Belgijka",
       "subtitle": "Taniec którego nie trzeba przedstawiać",
-      "time" : "12:00 - 12:15",
+      "time" : "ok. 11:00, 12:00",
       "location": "Boisko",
       "description": "Punktualnie o 12:00 zapraszamy wszystkich na boisko szkolne, gdzie wspólnie zatańczymy belgijkę!",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/belgijka.jpg"
@@ -53,7 +35,7 @@
       "id": 4020006090,
       "title": "Stanowiska tematyczne:",
       "subtitle": "",
-      "time" : "10:00-14:00",
+      "time" : "10:00-13:00",
       "location": "",
       "description": "Nie ma mnie tu 🙃\n\nPS. wracaj na główną",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/stanowiska.jpg"
@@ -63,8 +45,8 @@
       "title": "Stanowisko biologiczne",
       "subtitle": "Skamieliny, ta ta ta",
       "time": "",
-      "location": "sale 3 i 4",
-      "description" : "W tych salach dowiecie się wszystkiego o rozszerzeniu z biologii, a także będziecie mieli okazję wziąć udział w ciekawych grach i zobaczyć doświadczenia przygotowane przez naszych uczniów i nauczycieli!",
+      "location": "sala 4",
+      "description" : "Na tym stanowisku dowiecie się wszystkiego o rozszerzeniu z biologii, a także będziecie mieli okazję wziąć udział w ciekawych grach i zobaczyć doświadczenia przygotowane przez naszych uczniów i nauczycieli!",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/biologia.jpg"
     },
     {
@@ -73,17 +55,8 @@
       "subtitle": "Schmetterling",
       "time": "",
       "location": "sala 5",
-      "description": "Nasi sympatyczni germaniści chętnie opowiedzą Wam o swoich lekcjach i podzielą się swoimi doświadczeniami z pracy z uczniami. Również będziecie mogli poznać naszego wolontariusza z Niemiec. Na pewno dowiecie się także dlaczego warto uczyć się języka niemieckiego!",
+      "description": "Nasi sympatyczni germaniści chętnie opowiedzą Wam o swoich lekcjach i podzielą się swoimi doświadczeniami z pracy z uczniami. Również będziecie mogli poznać naszego wolontariusza z Niemiec. Na pewno dowiecie się także dlaczego warto uczyć się języka niemieckiego!\nNa dokładkę czeka na Was pyszna Kartoffelsalat",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/niemiecki.jpg"
-    },
-    {
-      "id": 3030,
-      "title": "Kurs pierwszej pomocy",
-      "subtitle": "EDB itp.",
-      "time": "",
-      "location": "sala 6",
-      "description": "W tej sali czekają na Was zajęcia, podczas których dowiecie się jak zachować się w sytuacji bezpośredniego zagrożenia. Połączmy przyjemne z pożytecznym i dowiedzmy się jak zachować się, gdy coś się wydarzy! ",
-      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/edb.jpg"
     },
     {
       "id": 1507,
@@ -91,7 +64,7 @@
       "subtitle": "Samorząd Uczniowski",
       "time": "",
       "location": "Samorządówka",
-      "description": "W centrum dowodzenia Samorządu czekać będzie na Was Przewodniczący, który chętnie odpowie na wszelkie pytania i omówi zarówno ubiegłe, jak i przyszłe akcje, w których Jedynka będzie brała udział. Jeśli będziecie mieli jakieś pomysły, drzwi do samorządówki zawsze będą dla Was otwarte!",
+      "description": "W centrum dowodzenia Samorządu czeka na Was wspaniała ekipa, która, chętnie odpowie na wszelkie pytania i omówi zarówno ubiegłe, jak i przyszłe akcje, w których Jedynka będzie brała udział. Jeśli będziecie mieli jakieś pomysły, drzwi do samorządówki zawsze będą dla Was otwarte!",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/samorzad.jpg"
     },
     {
@@ -114,11 +87,11 @@
     },
     {
       "id": 3504,
-      "title": "Stanowisko geograficzne i PP",
-      "subtitle": "Geografia oraz Podstawy Przedsiębiorczości",
+      "title": "Stanowisko geograficzne",
+      "subtitle": "🌍",
       "time": "",
       "location": "Sala 212",
-      "description": "W tej sali odkryjecie unikatowe połączenie geografii i podstaw przedsiębiorczości. Nasze niezwykłe nauczycielki opowiedzą Wam o skałach i pokażą najciekawsze miejsca na mapie świata, a także będziecie mogli zagrać w grę dotyczącą zarządzania budżetem. Zapraszamy, bo na pewno będzie się tu działo!",
+      "description": "W tej sali nasze wspaniały nauczycielki odpowiedzą Wam o wielu ciekawych miejscach i skałach, a także będziecie mogli wziąć udział w quizie z atrakcyjnymi nagrodami.",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/geografia.jpg"
     },
     {
@@ -135,8 +108,8 @@
       "title": "Stanowisko RPU",
       "subtitle": "Rzecznik Praw Ucznia",
       "time": "",
-      "location": "Sala 206",
-      "description": "W tej sali poznacie naszego Rzecznika Praw Ucznia, który chętnie opowie o swojej szkolnej działalności i z pewnością podzieli się swoją wiedzą z zakresu praw ucznia.",
+      "location": "Samorządówka",
+      "description": "W tej lokacji poznacie naszego Rzecznika Praw Ucznia, który chętnie opowie o swojej szkolnej działalności i z pewnością podzieli się swoją wiedzą z zakresu praw ucznia.",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/rpu.jpg"
     },
     {
@@ -145,14 +118,14 @@
       "subtitle": "Zapoznanie z systemem nauczania z matematyki",
       "time": "",
       "location": "Sala 205",
-      "description": "Na stanowisku matematycznym poznacie naszych niesamowicie pomocnych matematyków, dzięki którym zrozumienie nawet najtrudniejszych zagadek matematycznych stanie się proste i przyjemne!",
+      "description": "Na stanowisku matematycznym poznacie naszych niesamowicie pomocnych matematyków, dzięki którym zrozumienie nawet najtrudniejszych zagadek matematycznych stanie się proste i przyjemne! \nCzekają na Was również ciekawe gry matematyczne, sudoku i tangramy, a także film niespodzianka!",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/matematyka.jpg"
     },
     {
       "id": 3609,
-      "title": "Stanowisko chemiczne",
-      "subtitle": "Doświadczenia chemiczne",
-      "time": "",
+      "title": "Stanowisko chemiczne (pokazy)",
+      "subtitle": "Czas na niezłe widowisko",
+      "time": "10:00-13:00",
       "location": "Sala 201",
       "description": "W sali chemicznej czeka na Was moc atrakcji: nasi uczniowie wraz z nauczycielami zaprezentują Wam niesamowite doświadczenia, które z pewnością wywołają wiele emocji, a może nawet przeważą podczas wybierania Waszych przyszłych profili klas...",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/chemia.jpg"
@@ -180,7 +153,7 @@
       "title": "Stanowisko polonistyczne",
       "subtitle": "Kawiarenka literacka",
       "time": "",
-      "location": "Sale 102 i 103",
+      "location": "Sala 103",
       "description": "Nasi cudowni poloniści stale zarażają nas swoją pasją do nauk humanistycznych. Kto wie, może podczas Dni Otwartych odkryjecie w sobie duszę miłośnika literatury bądź poety...",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/polski.jpg"
     },
@@ -198,27 +171,36 @@
       "title": "Stanowisko historyczne",
       "subtitle": "Co było pierwsze - kura czy jajko?",
       "time": "",
-      "location": "sale 7 i 8",
+      "location": "Sala 7",
       "description": "Nasi historycy nigdy nie pozwalają nam się nudzić, tak będzie i tym razem. Weźcie udział w Konkursie Historyczno-Magicznym i przekonajcie się sami! ",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/historia.jpg"
     },
     {
       "id": 7301,
-      "title": "Stanowisko Safe Space",
-      "subtitle": "Cosmos",
+      "title": "Stanowisko Szachowe",
+      "subtitle": "Co tu więcej mówić",
       "time": "",
-      "location": "korytarz na I piętrze",
-      "description": "Uczniowie naszej szkoły tworzą własne społeczności, w których każdy może czuć się sobą. Jedną z nich jest klub “Safe Space”, gdzie każdy może porozmawiać na istotne dla siebie tematy w bezpiecznej przestrzeni, w której nie będzie oceniany niezależnie od tego kim jest. ",
-      "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/safespace.jpg"
+      "location": "Sala 204",
+      "description": "W tej sali odbędzie się niezwykła symultana, a także będziecie mieli szansę poznać naszych szkolnych mistrzów",
+      "image": "https://assets.dicebreaker.com/chess-playing-hand.jpeg/BROK/thumbnail/1600x900/quality/100/chess-playing-hand.jpeg"
     },
     {
       "id": 2473,
       "title": "Stanowisko wolontariatu",
-      "subtitle": "Solusia",
+      "subtitle": "🐕",
       "time": "",
-      "location": "korytarz na I piętrze",
+      "location": "Parter przy sali nr 4",
       "description": "Na tym stanowisku będziecie mieli niepowtarzalną okazję porozmawiać z przedstawicielami Wolontariatu, którzy opowiedzą Wam o wszystkich akcjach, w które się angażują. Już po chwili rozmowy na pewno poczujecie chęć do działania i pomocy innym!",
       "image": "https://raw.githubusercontent.com/Antoni-Czaplicki/jedynka_open_days/main/data/images/wolontariat.jpg"
+    },
+    {
+      "id": 3489,
+      "title": "Stanowisko doradcy zawodowego",
+      "subtitle": "Powodzenia na rynku pracy",
+      "time": "",
+      "location": "Sala 7",
+      "description": "Nasz szkolny doradca zawodowy z pewnością pomoże ci wybrać ścieżkę w przyszłość",
+      "image": "https://www.casfera.pl/wp-content/uploads/2022/03/ca_1600px_doradca_zawodowy.jpg"
     }
   ]
 }
